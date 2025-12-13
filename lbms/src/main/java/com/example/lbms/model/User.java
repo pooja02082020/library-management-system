@@ -68,14 +68,6 @@ public class User {
         this.roles = roles;
     }
 
-	public User(Integer id, String username, String email, String password, Set<String> roles) {
-		super();
-		this.id = id;
-		this.username = username;
-		this.email = email;
-		this.password = password;
-		this.roles = roles;
-	}
     public User() {}
     
 }
