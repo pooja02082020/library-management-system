@@ -22,15 +22,13 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/books")
 public class BookController {
 
-
-
- 
 	private final BookService service;
  
 	public BookController(BookService service) {
 		this.service = service;
 	}
  
+	//for post
 	@PostMapping
 	public ResponseEntity<Book> create(@Valid @RequestBody Book product) {
 		Book created = service.create(product);
