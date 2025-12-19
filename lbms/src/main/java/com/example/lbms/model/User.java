@@ -7,6 +7,8 @@ import java.util.Set;
 
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -24,6 +26,10 @@ public class User {
     private String username;
     private String email;
     private String password; // stored hashed
+    
+    // 1 = USER (default), 0 = ADMIN
+    private Integer role = 1;
+
 
     @ElementCollection(fetch = FetchType.EAGER)
     private Set<String> roles = new HashSet<>();
@@ -64,10 +70,16 @@ public class User {
         return roles;
     }
 
-    public void setRoles(Set<String> roles) {
-        this.roles = roles;
+    public Integer getRole() {
+        return role;
+    }
+
+    public void setRole(Integer role) {
+        this.role = role;
     }
 
     public User() {}
+
+	
     
 }

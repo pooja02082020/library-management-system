@@ -1,5 +1,6 @@
 package com.example.lbms.controller;
  
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -35,19 +36,22 @@ public class AuthController {
  
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
+
         if (userRepo.existsByUsername(req.getUsername())) {
             return ResponseEntity.badRequest().body("Username exists");
         }
- 
+
         User u = new User();
         u.setUsername(req.getUsername());
         u.setEmail(req.getEmail());
         u.setPassword(passwordEncoder.encode(req.getPassword()));
-        u.getRoles().add("ROLE_USER");
- 
+
+        u.setRole(1); //  DEFAULT USER
+
         userRepo.save(u);
         return ResponseEntity.ok("User registered");
     }
+
  
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody LoginRequest req) {
@@ -61,4 +65,18 @@ public class AuthController {
  
         return ResponseEntity.ok(new JwtResponse(token));
     }
+    
+    @PutMapping("/make-admin/{id}")
+    public String makeAdmin(@PathVariable Integer id) {
+
+        User user = userRepo.findById(id)
+                .orElseThrow(() -> new RuntimeException("User not found"));
+
+        user.setRole(0); //  ADMIN
+        userRepo.save(user);
+
+        return "User is now ADMIN";
+    }
+
+
 }
