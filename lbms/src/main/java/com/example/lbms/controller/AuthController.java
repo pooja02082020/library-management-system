@@ -16,7 +16,7 @@ import com.example.lbms.model.*;
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
- 
+ //added authManager
     private final AuthenticationManager authManager;
     private final UserRepository userRepo;
     private final BCryptPasswordEncoder passwordEncoder;
