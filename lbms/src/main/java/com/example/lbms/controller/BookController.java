@@ -23,36 +23,66 @@ import com.example.lbms.service.BookService;
 
 import jakarta.validation.Valid;
 
+/**
+ * REST Controller for managing Book-related operations.
+ * Handles HTTP requests for creating, retrieving, updating, and deleting books.
+ */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {
 
+	// Service layer dependency for business logic
 	private final BookService service;
- 
+
+	// Constructor-based dependency injection
 	public BookController(BookService service) {
 		this.service = service;
 	}
- 
-	//for post
+
+	/**
+	 * Create a new Book
+	 * URL: POST /api/books
+	 * @param product Book object received in request body
+	 * @return created Book with HTTP 201 status
+	 */
 	@PostMapping
 	public ResponseEntity<Book> create(@Valid @RequestBody Book product) {
 		Book created = service.create(product);
 		return ResponseEntity.status(HttpStatus.CREATED).body(created);
 	}
- 
-	//FOR GETTING BY ID
+
+	/**
+	 * Get a Book by ID
+	 * URL: GET /api/books/{id}
+	 * @param id Book ID
+	 * @return Book object
+	 */
 	@GetMapping("/{id}")
 	public ResponseEntity<Book> get(@PathVariable int id) {
 		return ResponseEntity.ok(service.getById(id));
 	}
- 
-	//gETTING ALL 
+
+	/**
+	 * Get all Books without pagination
+	 * URL: GET /api/books
+	 * @return list of all books
+	 */
 	@GetMapping
 	public ResponseEntity<List<Book>> all() {
 		return ResponseEntity.ok(service.getAll());
 	}
-	
-	//ADDED PAGINATION
+
+	/**
+	 * Get all Books with pagination and sorting
+	 * URL: GET /api/books/page
+	 * Query Params:
+	 *  - page: page number (default 0)
+	 *  - size: number of records per page (default 10)
+	 *  - sortBy: field to sort by (default id)
+	 *  - order: asc or desc (default asc)
+	 *
+	 * @return paginated list of books
+	 */
 	@GetMapping("/page")
 	public ResponseEntity<Page<Book>> all(
 	    @RequestParam(defaultValue = "0") int page,
@@ -60,19 +90,38 @@ public class BookController {
 	    @RequestParam(defaultValue = "id") String sortBy,
 	    @RequestParam(defaultValue = "asc") String order) {
 
-	    Sort sort = order.equalsIgnoreCase("asc") ? Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+	    // Determine sorting order
+	    Sort sort = order.equalsIgnoreCase("asc")
+	            ? Sort.by(sortBy).ascending()
+	            : Sort.by(sortBy).descending();
+
+	    // Create Pageable object
 	    Pageable pageable = PageRequest.of(page, size, sort);
+
+	    // Fetch paginated data from service
 	    Page<Book> pageResult = service.getAll(pageable);
+
 	    return ResponseEntity.ok(pageResult);
 	}
-	
-	//UPDATING BY ID
+
+	/**
+	 * Update a Book by ID
+	 * URL: PUT /api/books/{id}
+	 * @param id Book ID
+	 * @param product updated Book data
+	 * @return updated Book
+	 */
 	@PutMapping("/{id}")
 	public ResponseEntity<Book> update(@PathVariable int id, @Valid @RequestBody Book product) {
 		return ResponseEntity.ok(service.update(id, product));
 	}
- 
-	//DELETING BY ID
+
+	/**
+	 * Delete a Book by ID
+	 * URL: DELETE /api/books/{id}
+	 * @param id Book ID
+	 * @return HTTP 204 No Content
+	 */
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable int id) {
 		service.delete(id);
