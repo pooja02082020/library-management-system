@@ -29,4 +29,10 @@ public class PaymentRequest {
 	public void setMethod(String method) {
 		this.method = method;
 	}
+
+	public PaymentRequest() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
 }
