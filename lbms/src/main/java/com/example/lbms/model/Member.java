@@ -8,6 +8,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToOne;
 
 @Entity
 public class Member {
@@ -24,6 +26,9 @@ public class Member {
     private MemberStatus status; // ACTIVE, BLOCKED
 
     private LocalDate joinedDate;
+    @OneToOne
+    @JoinColumn(name = "user_id")
+    private User user;   // JWT user link
 
 	public Long getId() {
 		return id;
@@ -71,6 +76,14 @@ public class Member {
 
 	public void setJoinedDate(LocalDate joinedDate) {
 		this.joinedDate = joinedDate;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
     
     

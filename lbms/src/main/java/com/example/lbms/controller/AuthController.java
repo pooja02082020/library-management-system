@@ -105,6 +105,27 @@ public class AuthController {
         return ResponseEntity.ok(new JwtResponse(token));
     }
 
+    
+//    @PostMapping("/register-member")
+//    public Member registerMember(@RequestBody RegisterMemberRequest request) {
+//
+//        User user = new User();
+//        user.setUsername(request.getUsername());
+//        user.setPassword(passwordEncoder.encode(request.getPassword()));
+//        user.setRole(Role.ROLE_ADMIN);
+//        user = userRepository.save(user);
+//
+//        Member member = new Member();
+//        member.setName(request.getName());
+//        member.setEmail(request.getEmail());
+//        member.setPhone(request.getPhone());
+//        member.setStatus(MemberStatus.ACTIVE);
+//        member.setJoinedDate(LocalDate.now());
+//        member.setUser(user);
+//
+//        return memberRepository.save(member);
+//    }
+
     /**
      * Promote a user to ADMIN role
      * URL: PUT /api/auth/make-admin/{id}
