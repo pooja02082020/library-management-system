@@ -23,10 +23,6 @@ import com.example.lbms.service.BookService;
 
 import jakarta.validation.Valid;
 
-/**
- * REST Controller for managing Book-related operations.
- * Handles HTTP requests for creating, retrieving, updating, and deleting books.
- */
 @RestController
 @RequestMapping("/api/books")
 public class BookController {

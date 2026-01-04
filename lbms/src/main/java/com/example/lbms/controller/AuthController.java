@@ -46,13 +46,7 @@ public class AuthController {
         this.jwtUtils = ju;
     }
 
-    /**
-     * Register a new user (Signup)
-     * URL: POST /api/auth/signup
-     *
-     * @param req SignupRequest containing username, email, and password
-     * @return success or error message
-     */
+
     @PostMapping("/signup")
     public ResponseEntity<?> signup(@RequestBody SignupRequest req) {
 
